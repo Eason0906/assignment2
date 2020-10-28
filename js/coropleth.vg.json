@@ -1,167 +1,95 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
   "width": 800,
   "height": 600,
-  "title": "COVID-19 Cases per Country (13 Oct 2020)",
-  "data": {
-    "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/4_interactive_scatter_plot/data/COVID_19_10_Oct_2020.csv"
-  },
-  "params": [
+  "title": {"text": "EF Difference During 2009-2013", "frame": "group"},
+  "style": "cell",
+  "data": [
     {
-      "name": "Population_Above",
-      "value": 0,
-      "bind": {
-        "input": "range",
-        "min": 0,
-        "max": 100000000,
-        "step": 1000000,
-        "name": "Minimum Population: "
-      }
+      "name": "source_1",
+      "url": "https://raw.githubusercontent.com/Eason0906/assignment2/main/data/EF_GDP(constant2010USD).csv",
+      "format": {"type": "csv", "delimiter": ","}
     },
     {
-      "name": "Continent_selection",
-      "bind": {
-        "input": "select",
-        "options": [
-          null,
-          "North America",
-          "South America",
-          "Europe",
-          "Africa",
-          "Asia",
-          "Oceania"
-        ],
-        "labels":[
-          "Show All",
-          "North America",
-          "South America",
-          "Europe",
-          "Africa",
-          "Asia",
-          "Oceania"
-        ],
-        "name": "Continent Selection: "
-      }
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
+      "format": {
+        "type": "topojson",
+        "feature": "ne_110m_admin_0_countries",
+        "parse": {}
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "datum[\"properties\"] && datum[\"properties\"][\"NAME\"]",
+          "as": "properties.NAME"
+        },
+        {
+          "type": "lookup",
+          "from": "source_1",
+          "key": "Country",
+          "fields": ["properties.NAME"],
+          "values": ["EFDelta"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.EFDelta/pow(10,6)",
+          "as": "Difference of EF in 2009-2013"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Difference of EF in 2009-2013\"]) && isFinite(+datum[\"Difference of EF in 2009-2013\"])"
+        }
+      ]
     }
   ],
-  "transform": [
-    {"filter": "datum.Active > 0"},
-    {"filter": "datum.Deaths > 0"},
-    {"filter": "datum.Population > Population_Above"},
-    {"filter": "Continent_selection == null || datum.Continent == Continent_selection"},
+  "projections": [
     {
-      "calculate": "datum.Confirmed/datum.Population * 10000",
-      "as": "Cases per 10,000 Population"
+      "name": "projection",
+      "size": {"signal": "[width, height]"},
+      "fit": {"signal": "data('source_0')"},
+      "type": "equirectangular"
     }
   ],
-  "encoding": {
-    "x": {
-      "field": "Confirmed",
-      "type": "quantitative",
-      "title": "Confirmed Cases",
-      "axis": {"tickCount": 7},
-      "scale": {"type": "log", "domain": [1, 10000000]}
-    },
-    "y": {
-      "field": "Deaths",
-      "type": "quantitative",
-      "axis": {"tickCount": 6},
-      "scale": {"type": "log", "domain": [1, 1000000]}
-    }
-  },
-  "layer": [
+  "marks": [
     {
-      "selection": {
-        "continent_highlight": {
-          "type": "multi",
-          "fields": ["Continent"],
-          "bind": "legend"
+      "name": "marks",
+      "type": "shape",
+      "style": ["geoshape"],
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "fill": {"scale": "color", "field": "Difference of EF in 2009-2013"},
+          "tooltip": {
+            "signal": "{\"Country\": isValid(datum[\"properties.NAME\"]) ? datum[\"properties.NAME\"] : \"\"+datum[\"properties.NAME\"], \"Difference of EF in 2009-2013\": format(datum[\"Difference of EF in 2009-2013\"], \"\")}"
+          },
+          "ariaRoleDescription": {"value": "geoshape"},
+          "description": {
+            "signal": "\"Difference of EF in 2009-2013: \" + (format(datum[\"Difference of EF in 2009-2013\"], \"\")) + \"; Country: \" + (isValid(datum[\"properties.NAME\"]) ? datum[\"properties.NAME\"] : \"\"+datum[\"properties.NAME\"])"
+          }
         }
       },
-      "mark": "circle",
-      "encoding": {
-        "size": {
-          "field": "Population",
-          "type": "quantitative",
-          "scale": {
-            "type": "threshold",
-            "domain": [1000000, 10000000, 50000000, 100000000, 500000000],
-            "range": [10, 50, 150, 200, 300, 400]
-          },
-          "legend": {"format": ".1s"}
-        },
-        "color": {
-          "field": "Continent",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "North America",
-              "South America",
-              "Europe",
-              "Africa",
-              "Asia",
-              "Oceania"
-            ],
-            "range": [
-              "#e41a1c",
-              "#984ea3",
-              "#ff7f00",
-              "#a6cee3",
-              "#377eb8",
-              "#a65628"
-            ]
-          }
-        },
-        "opacity": {
-          "condition": {"selection": "continent_highlight", "value": 0.6},
-          "value": 0.2
-        },
-        "tooltip": [
-          {"field": "Country", "type": "nominal"},
-          {"field": "Confirmed", "type": "quantitative", "format": ","},
-          {"field": "Active", "type": "quantitative", "format": ","},
-          {"field": "Deaths", "type": "quantitative", "format": ","},
-          {"field": "Recovered", "type": "quantitative", "format": ","},
-          {
-            "field": "Cases per 10,000 Population",
-            "type": "quantitative",
-            "format": ".2f"
-          }
-        ]
-      }
-    },
-    {
-      "mark": {
-        "type": "text",
-        "align": "right",
-        "baseline": "middle",
-        "dx": -12,
-        "fontSize": 11.5,
-        "fontStyle": "italic"
-      },
-      "encoding": {
-        "text": {"field": "Country", "type": "nominal"},
-        "color": {"value": "black"},
-        "opacity": {
-          "condition": {
-            "test": "datum['Country'] == 'China' || datum['Country'] == 'Singapore' || datum['Country'] == 'Australia' || datum['Country'] == 'New Zealand' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
-            "value": 1
-          },
-          "value": 0
-        },
-        "tooltip": [
-          {"field": "Country", "type": "nominal"},
-          {"field": "Confirmed", "type": "quantitative", "format": ","},
-          {"field": "Active", "type": "quantitative", "format": ","},
-          {"field": "Deaths", "type": "quantitative", "format": ","},
-          {"field": "Recovered", "type": "quantitative", "format": ","},
-          {
-            "field": "Cases per 10,000 Population",
-            "type": "quantitative",
-            "format": ".2f"
-          }
-        ]
-      }
+      "transform": [{"type": "geoshape", "projection": "projection"}]
     }
-  ]
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "sqrt",
+      "domain": {"data": "source_0", "field": "Difference of EF in 2009-2013"},
+      "range": "heatmap",
+      "interpolate": "hcl",
+      "zero": false
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "gradientLength": {"signal": "clamp(height, 64, 200)"},
+      "title": "Difference of EF in 2009-2013"
+    }
+  ],
+  "config": {}
 }
