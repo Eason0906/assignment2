@@ -5,7 +5,7 @@
   "width": 300,
   "height": 180,
   "title": {
-    "text": "COVID-19 Cases per Country (13 Oct 2020)",
+    "text": "GDP During 2009-2013",
     "frame": "group"
   },
   "style": "cell",
@@ -94,8 +94,8 @@
       "bind": {
         "input": "range",
         "min": -74340000000,
-        "max": 100000000,
-        "step": 1000000,
+        "max": 100000000000000,
+        "step": 1000000000,
         "name": "Minimum GDPDelta: "
       }
     },
