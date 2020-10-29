@@ -5,7 +5,7 @@
   "width": 300,
   "height": 180,
   "title": {
-    "text": "GDP During 2009-2013",
+    "text": "COVID-19 Cases per Country (13 Oct 2020)",
     "frame": "group"
   },
   "style": "cell",
@@ -94,8 +94,8 @@
       "bind": {
         "input": "range",
         "min": -74340000000,
-        "max": 100000000000000,
-        "step": 1000000000,
+        "max": 1000000000000,
+        "step": 1000000,
         "name": "Minimum GDPDelta: "
       }
     },
@@ -174,7 +174,7 @@
           },
           "ariaRoleDescription": {"value": "circle"},
           "description": {
-            "signal": "\"Confirmed Cases: \" + (format(datum[\"GDP2009\"], \"\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \"\")) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \".1s\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; GDP2009: \" + (format(datum[\"GDP2009\"], \",\"))"
+            "signal": "\"GDP2009: \" + (format(datum[\"GDP2009\"], \"\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \"\")) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \".1s\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"])"
           },
           "x": {"scale": "x", "field": "GDP2009"},
           "y": {"scale": "y", "field": "GDP2013"},
@@ -199,7 +199,7 @@
           "fill": {"value": "black"},
           "opacity": [
             {
-              "test": "datum['Country'] == 'China' || datum['Country'] == 'Singapore' || datum['Country'] == 'Australia' || datum['Country'] == 'New Zealand' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
+              "test": "datum['Country'] == 'China' || datum['Country'] == 'United States of America' || datum['Country'] == 'Australia' || datum['Country'] == 'New Zealand' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
               "value": 1
             },
             {"value": 0}
@@ -208,7 +208,7 @@
             "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"GDP2009\": format(datum[\"GDP2009\"], \",\"), \"GDP2013\": format(datum[\"GDP2013\"], \",\"), \"GDPDelta\": format(datum[\"GDPDelta\"], \",\")}"
           },
           "description": {
-            "signal": "\"Confirmed Cases: \" + (format(datum[\"GDP2009\"], \"\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; GDP2009: \" + (format(datum[\"GDP2009\"], \",\")) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \",\"))"
+            "signal": "\"GDP2009: \" + (format(datum[\"GDP2009\"], \"\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \",\"))"
           },
           "x": {"scale": "x", "field": "GDP2009"},
           "y": {"scale": "y", "field": "GDP2013"},
@@ -294,7 +294,7 @@
       "scale": "x",
       "orient": "bottom",
       "grid": false,
-      "title": "Confirmed Cases",
+      "title": "GDP2009",
       "tickCount": 6,
       "labelFlush": true,
       "labelOverlap": "greedy",
