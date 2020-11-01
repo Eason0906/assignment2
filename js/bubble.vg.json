@@ -4,10 +4,7 @@
   "padding": 5,
   "width": 300,
   "height": 180,
-  "title": {
-    "text": "COVID-19 Cases per Country (13 Oct 2020)",
-    "frame": "group"
-  },
+  "title": {"text": "GDP Difference During 2009-2013", "frame": "group"},
   "style": "cell",
   "data": [
     {"name": "continent_highlight_store"},
@@ -94,7 +91,7 @@
       "bind": {
         "input": "range",
         "min": -74340000000,
-        "max": 1000000000000,
+        "max": 100000000,
         "step": 1000000,
         "name": "Minimum GDPDelta: "
       }
@@ -174,7 +171,7 @@
           },
           "ariaRoleDescription": {"value": "circle"},
           "description": {
-            "signal": "\"GDP2009: \" + (format(datum[\"GDP2009\"], \"\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \"\")) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \".1s\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"])"
+            "signal": "\"Confirmed Cases: \" + (format(datum[\"GDP2009\"], \".2e\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \".2e\")) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \".1s\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; GDP2009: \" + (format(datum[\"GDP2009\"], \",\"))"
           },
           "x": {"scale": "x", "field": "GDP2009"},
           "y": {"scale": "y", "field": "GDP2013"},
@@ -199,7 +196,7 @@
           "fill": {"value": "black"},
           "opacity": [
             {
-              "test": "datum['Country'] == 'China' || datum['Country'] == 'United States of America' || datum['Country'] == 'Australia' || datum['Country'] == 'New Zealand' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
+              "test": "datum['Country'] == 'China' || datum['Country'] == 'Singapore' || datum['Country'] == 'Australia' || datum['Country'] == 'New Zealand' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
               "value": 1
             },
             {"value": 0}
@@ -208,7 +205,7 @@
             "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"GDP2009\": format(datum[\"GDP2009\"], \",\"), \"GDP2013\": format(datum[\"GDP2013\"], \",\"), \"GDPDelta\": format(datum[\"GDPDelta\"], \",\")}"
           },
           "description": {
-            "signal": "\"GDP2009: \" + (format(datum[\"GDP2009\"], \"\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \",\"))"
+            "signal": "\"Confirmed Cases: \" + (format(datum[\"GDP2009\"], \".2e\")) + \"; GDP2013: \" + (format(datum[\"GDP2013\"], \".2e\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; GDP2009: \" + (format(datum[\"GDP2009\"], \",\")) + \"; GDPDelta: \" + (format(datum[\"GDPDelta\"], \",\"))"
           },
           "x": {"scale": "x", "field": "GDP2009"},
           "y": {"scale": "y", "field": "GDP2013"},
@@ -258,7 +255,7 @@
       "name": "size",
       "type": "threshold",
       "domain": [0, 1000000000, 10000000000, 100000000000, 1000000000000],
-      "range": [10, 50, 150, 200, 300, 400]
+      "range": [10, 50, 150, 200, 300, 500]
     }
   ],
   "axes": [
@@ -294,7 +291,8 @@
       "scale": "x",
       "orient": "bottom",
       "grid": false,
-      "title": "GDP2009",
+      "title": "Confirmed Cases",
+      "format": ".2e",
       "tickCount": 6,
       "labelFlush": true,
       "labelOverlap": "greedy",
@@ -305,6 +303,7 @@
       "orient": "left",
       "grid": false,
       "title": "GDP2013",
+      "format": ".2e",
       "tickCount": 6,
       "labelOverlap": "greedy",
       "zindex": 0

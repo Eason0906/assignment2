@@ -10,22 +10,27 @@
       "transform": [
         {
           "type": "stack",
-          "groupby": ["country", "year"],
-          "field": "Value",
+          "groupby": ["country", "Components of EF in Years"],
+          "field": "EF Production Per Capita",
           "sort": {"field": ["EFtype"], "order": ["ascending"]},
-          "as": ["Value_start", "Value_end"],
+          "as": [
+            "EF Production Per Capita_start",
+            "EF Production Per Capita_end"
+          ],
           "offset": "zero"
         },
         {
           "type": "filter",
-          "expr": "isValid(datum[\"Value\"]) && isFinite(+datum[\"Value\"])"
+          "expr": "isValid(datum[\"EF Production Per Capita\"]) && isFinite(+datum[\"EF Production Per Capita\"])"
         }
       ]
     },
     {
       "name": "column_domain",
       "source": "source_0",
-      "transform": [{"type": "aggregate", "groupby": ["year"]}]
+      "transform": [
+        {"type": "aggregate", "groupby": ["Components of EF in Years"]}
+      ]
     }
   ],
   "signals": [
@@ -48,7 +53,11 @@
       "name": "column-title",
       "type": "group",
       "role": "column-title",
-      "title": {"text": "year", "style": "guide-title", "offset": 10}
+      "title": {
+        "text": "Components of EF in Years",
+        "style": "guide-title",
+        "offset": 10
+      }
     },
     {
       "name": "row_header",
@@ -70,10 +79,13 @@
       "type": "group",
       "role": "column-header",
       "from": {"data": "column_domain"},
-      "sort": {"field": "datum[\"year\"]", "order": "ascending"},
+      "sort": {
+        "field": "datum[\"Components of EF in Years\"]",
+        "order": "ascending"
+      },
       "title": {
         "text": {
-          "signal": "isValid(parent[\"year\"]) ? parent[\"year\"] : \"\"+parent[\"year\"]"
+          "signal": "isValid(parent[\"Components of EF in Years\"]) ? parent[\"Components of EF in Years\"] : \"\"+parent[\"Components of EF in Years\"]"
         },
         "style": "guide-label",
         "frame": "group",
@@ -86,14 +98,17 @@
       "type": "group",
       "role": "column-footer",
       "from": {"data": "column_domain"},
-      "sort": {"field": "datum[\"year\"]", "order": "ascending"},
+      "sort": {
+        "field": "datum[\"Components of EF in Years\"]",
+        "order": "ascending"
+      },
       "encode": {"update": {"width": {"signal": "child_width"}}},
       "axes": [
         {
           "scale": "x",
           "orient": "bottom",
           "grid": false,
-          "title": "Value",
+          "title": "EF Production Per Capita",
           "labelFlush": true,
           "labelOverlap": true,
           "tickCount": {"signal": "ceil(child_width/40)"},
@@ -106,9 +121,16 @@
       "type": "group",
       "style": "cell",
       "from": {
-        "facet": {"name": "facet", "data": "source_0", "groupby": ["year"]}
+        "facet": {
+          "name": "facet",
+          "data": "source_0",
+          "groupby": ["Components of EF in Years"]
+        }
       },
-      "sort": {"field": ["datum[\"year\"]"], "order": ["ascending"]},
+      "sort": {
+        "field": ["datum[\"Components of EF in Years\"]"],
+        "order": ["ascending"]
+      },
       "encode": {
         "update": {
           "width": {"signal": "child_width"},
@@ -124,12 +146,15 @@
           "encode": {
             "update": {
               "fill": {"scale": "color", "field": "EFtype"},
+              "tooltip": {
+                "signal": "{\"country\": isValid(datum[\"country\"]) ? datum[\"country\"] : \"\"+datum[\"country\"], \"EF Production Per Capita\": format(datum[\"EF Production Per Capita\"], \"\"), \"EFtype\": isValid(datum[\"EFtype\"]) ? datum[\"EFtype\"] : \"\"+datum[\"EFtype\"]}"
+              },
               "ariaRoleDescription": {"value": "bar"},
               "description": {
-                "signal": "\"Value: \" + (format(datum[\"Value\"], \"\")) + \"; country: \" + (isValid(datum[\"country\"]) ? datum[\"country\"] : \"\"+datum[\"country\"]) + \"; EFtype: \" + (isValid(datum[\"EFtype\"]) ? datum[\"EFtype\"] : \"\"+datum[\"EFtype\"])"
+                "signal": "\"EF Production Per Capita: \" + (format(datum[\"EF Production Per Capita\"], \"\")) + \"; country: \" + (isValid(datum[\"country\"]) ? datum[\"country\"] : \"\"+datum[\"country\"]) + \"; EFtype: \" + (isValid(datum[\"EFtype\"]) ? datum[\"EFtype\"] : \"\"+datum[\"EFtype\"])"
               },
-              "x": {"scale": "x", "field": "Value_end"},
-              "x2": {"scale": "x", "field": "Value_start"},
+              "x": {"scale": "x", "field": "EF Production Per Capita_end"},
+              "x2": {"scale": "x", "field": "EF Production Per Capita_start"},
               "y": {"scale": "y", "field": "country"},
               "height": {"scale": "y", "band": 1}
             }
@@ -158,7 +183,13 @@
     {
       "name": "x",
       "type": "linear",
-      "domain": {"data": "source_0", "fields": ["Value_start", "Value_end"]},
+      "domain": {
+        "data": "source_0",
+        "fields": [
+          "EF Production Per Capita_start",
+          "EF Production Per Capita_end"
+        ]
+      },
       "range": [0, {"signal": "child_width"}],
       "nice": true,
       "zero": true

@@ -36,11 +36,11 @@
         {
           "type": "formula",
           "expr": "datum.EFDelta/pow(10,6)",
-          "as": "Difference of EF in 2009-2013"
+          "as": "Difference of EF"
         },
         {
           "type": "filter",
-          "expr": "isValid(datum[\"Difference of EF in 2009-2013\"]) && isFinite(+datum[\"Difference of EF in 2009-2013\"])"
+          "expr": "isValid(datum[\"Difference of EF\"]) && isFinite(+datum[\"Difference of EF\"])"
         }
       ]
     }
@@ -61,13 +61,13 @@
       "from": {"data": "source_0"},
       "encode": {
         "update": {
-          "fill": {"scale": "color", "field": "Difference of EF in 2009-2013"},
+          "fill": {"scale": "color", "field": "Difference of EF"},
           "tooltip": {
-            "signal": "{\"Country\": isValid(datum[\"properties.NAME\"]) ? datum[\"properties.NAME\"] : \"\"+datum[\"properties.NAME\"], \"Difference of EF in 2009-2013\": format(datum[\"Difference of EF in 2009-2013\"], \"\")}"
+            "signal": "{\"Country\": isValid(datum[\"properties.NAME\"]) ? datum[\"properties.NAME\"] : \"\"+datum[\"properties.NAME\"], \"Difference of EF\": format(datum[\"Difference of EF\"], \"\")}"
           },
           "ariaRoleDescription": {"value": "geoshape"},
           "description": {
-            "signal": "\"Difference of EF in 2009-2013: \" + (format(datum[\"Difference of EF in 2009-2013\"], \"\")) + \"; Country: \" + (isValid(datum[\"properties.NAME\"]) ? datum[\"properties.NAME\"] : \"\"+datum[\"properties.NAME\"])"
+            "signal": "\"Difference of EF: \" + (format(datum[\"Difference of EF\"], \"\")) + \"; Country: \" + (isValid(datum[\"properties.NAME\"]) ? datum[\"properties.NAME\"] : \"\"+datum[\"properties.NAME\"])"
           }
         }
       },
@@ -78,7 +78,7 @@
     {
       "name": "color",
       "type": "sqrt",
-      "domain": {"data": "source_0", "field": "Difference of EF in 2009-2013"},
+      "domain": {"data": "source_0", "field": "Difference of EF"},
       "range": "heatmap",
       "interpolate": "hcl",
       "zero": false
@@ -88,7 +88,7 @@
     {
       "fill": "color",
       "gradientLength": {"signal": "clamp(height, 64, 200)"},
-      "title": "Difference of EF in 2009-2013"
+      "title": "Difference of EF"
     }
   ],
   "config": {}
