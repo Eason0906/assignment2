@@ -1,265 +1,156 @@
+<!DOCTYPE html>
 <html>
-    <header>
-        <!-- Required meta tags -->
-    <title>Network of Wars</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
-    <script type="text/javascript" src="js/d3.js"></script>
-    <script type="text/javascript" src="js/d3-zoom.js"></script>
-    <script type="text/javascript" src="js/networkofwars.js"></script>
+<head>
+  <title>Multiple Visualisations | An Example</title>
+  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+  <!-- Import vega-embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <!-- Import pure.css -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <style>
-        a{
-            font-weight: bold;
-        }
-        p, a, li{
-            color: white;
-            text-align: left;
-        }
-        h1{
-            font-family: 'Fjalla One', sans-serif;
-            color: white;
-            text-align: left;
-            margin-bottom: 35px;
-        }
-        .tooltip{
-            color: white;
-        }
-        .form{
-            text-align: center;
-        }
-        .form-wrapper{
-            margin: auto;
-            text-align: left;
-            max-width: 800px
-        }
-        .form-wrapper div, .form-wrapper input{
-            margin: 0 0 10 10;
-        }
-        .footer{
-            font-size: smaller;
-            text-align: center;
-            margin: auto;
-        }
-        body{
+  <!-- custom style -->
+  <style>
+    *{
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+    h1{
+      font-weight: 900;
+    }
+     body{
+       background-color:aquamarine;
+     }
+     .page{
+       width: 850px;    
+       background-color: white;   
+       margin: auto;
+       padding: 35px;
+       padding-top: 35px;
+       background-image: url('img_girl.jpg');
+    }
+    .vis-container{
+      width: 350px;
+      padding-bottom: 10px;
+    }
+    .description h2, h1{
+      margin-top:0px;
+    }
+    .description-right {
+      padding-left: 290px;
+    }
+    .description-right2{
+        padding-left: 0px;
+    }
+    .description-left{
+      padding-right: 5px;
+    }
+    .pure-g{
+      margin-bottom: 15px;
+    }
+    .small-font{
+        font-size: 20px;
+    }
+  </style>
+</head>
+<body>
 
-            background-color: rgb(37, 38, 39);
-        }
-        .description{
-            margin-top: 50px;
-            padding: 25px;
-            text-align: center;
-            
-        }
-        .footer{
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-    </style>
-    </header>
-    <body>
-    <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                        <div class="description">
-                                <h1>THE NETWORK OF <b style="color:red">WARS</b></h1>
-                                <div>
-                                        <p>
-                                            The network of wars visualises the connections among nations on the battlefields from 1800s to early 2000s.
-                                            </p>
-                                            <p>
-                                                    Datasets : <a href="http://www.correlatesofwar.org/" target="_blank">Correlate of War</a><br>
-                                                    Visualisation: <a href="https://d3js.org/" target="_blank">d3.js</a> 
-                                            </p>
-                                          
-                                </div>
-        
-                        </div>
-                       
-                </div>
-                <div class="col-md-auto" id="canvas">
-                </div>                      
-            </div>
-            <p class="footer">
-                    Created by: <a href="kadekananta.com">Kadek A. Satriadi</a>, github: <a href="https://github.com/KadekSatriadi/networkofwars" target="_blank">https://github.com/KadekSatriadi/networkofwars</a> 
-                </p>        
+ <div class="page">
+
+   <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h1 style="text-align: center; padding-bottom: 0px;";>National Footprint From 2009-2013</h1>
+
+        <p style="font-size: 12px;  padding-bottom: 25px;  font-family: 'Itim', cursive;font-weight:light;">Ecological Footprint measures the ecological assets that a given population requires to produce the natural resources it consumes (including plant-based food and fiber products, livestock and fish products, timber and other forest products, space for urban infrastructure) and to absorb its waste, especially carbon emissions</p>
+      </div>
+    </div>
+  <!-- end pure grid group -->
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+        <div class="pure-u-1-3">
+          <div class="description description-left">
+            <h2 style="color:lightsalmon;  font-family: 'Turret Road', cursive; font-weight:bolder;">Bubble Plot for GDP change</h2>
+            <p>During 2009-2013, most countries increased their GDP, while some countries decreased, like Italy, Spain. It is obvious that Developed country always has higher GDP compared with Developing country. US has the highest GDP in every year and greatest GDP delta during 2009-2013; China ranks the second, population maybe the key reason why China has such a great GDP. If we selcet each continent one by one, we will find Europe country and Africa country circles are close to each other, and Europre circles usually have higher value compared with Africa.
+          </div>
         </div>
-        <script>
-            var graphdata;
-            var wardatapath = "./data/wardata.csv";
-            var warlocationpath = "./data/warlocationlookup.csv";
-            var convertNumbers = function(row) {
-                var r = {};
-                for (var k in row) {
-                    r[k] = +row[k];
-                    if (isNaN(r[k])) {
-                        r[k] = row[k];
-                    }
-                }
-                return r;
-            }
+        <div class="pure-u-2-3">
+          <div id="vis1" class="vis-container"></div>
+        </div>
+    </div>
+    <!-- end pure grid group -->
 
-            d3.csv(wardatapath,convertNumbers, function (data) {
-                var wardata = data;
-                d3.csv(warlocationpath,convertNumbers,function (data) {
-                    var warlocationdata = data;
+    <!-- pure grid group -->
+    <div class="pure-g">
+        <div class="pure-u-1-3">
+            <div class="description description-left">
+                <div id="vis2"  class="vis-container"></div>
+              </div>
+          
+        </div>
+        <div class="pure-u-2-3">
+            <div class="description description-right">
+                <h2 style="color:turquoise;   font-family: 'Turret Road', cursive; font-weight:bolder;">Choropleth Map for EF Difference</h2>
+                <p>This graph is to show the EF change during 2009-2013, the darjer the area, the greater the increasement. It is obvious that China has the greatest EF increasement. Country with large area or large popu;ation always has a huge EF increasement since EF increase related with the raise of people need and area relcamation.</p>
+            </div>
+        </div>
+      
+    </div>
+    <!-- end pure grid group -->
 
-                    processData();
-                    var graphdata = getGraphData();
-                    WarForcedGraph.containerid = "canvas";
-                    WarForcedGraph.height = d3.select("body").style('height').slice(0, -2) ;
-                    WarForcedGraph.width = d3.select("body").style('width').slice(0, -2) - 500;
-                    WarForcedGraph.data = graphdata;
-                    WarForcedGraph.drawSvg();
-                    WarForcedGraph.drawGraphs();
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-3">
+        <div class="description description-left">
+          <h2 style="color:tomato;  font-family: 'Turret Road', cursive; font-weight:bolder;">Trellis Stacked Bar Chart for EF</h2>
+          <p>This graph shows the EF elements in the top five countries.The Ecological Footprint(EF) consists of 6 types of land as shown on the right side of the graph, apparently carbon absortion takes the most EF for all countries, and it is still increasing.</p>
+        </div>
+      </div>
+      <div class="pure-u-2-3">
+        
+        <div id="vis3"  class="vis-container"></div>
+      </div>
+    </div>
+    <div class="pure-g">
+        <div class="pure-u-1-1">
+        <div class="description description-right2">
+            <h2 style="color: darkseagreen;">Summary</h2>
+            <p>In this visualization, we could find most countries increased GDP and EF during 2009-2013,
+                while some countries decreased like Italy, Spain. If we select country one by one, we could
+                find country has high GDP Delta always has high increasement of EF. It is reasonable to believe GDP and EF change are related with each other. Also, carbon takes up most in EF, 
+                developing technology to deal with carbon will play an important role in the following years.
+                </p>
+        </div>
+    </div>
+    
+    </div>
+    <!-- end pure grid group -->
+  
 
-                    function getGraphDataId(nodes, name) {
-                        var id = -1;
-                        for(var i = 0; i < nodes.length; i++){
-                            var node = nodes[i];
-                            if(node.id === name){
-                                id = i;
-                                break;
-                            }
-                        }
-                        return id;
-                    }
-                    function processData() {
-                        w = wardata;
-                        var wararray = [];
-                        for(var i = 0; i < w.length; i++){
-                            var row = w[i];
-                            var participant = {
-                                warid: row.warid,
-                                name: row.statename,
-                                side: row.side,
-                                death: row.death,
-                                initiator: row.initiator,
-                                location: getLocations(row.locationid),
-                                coordinate: [
-                                    row.long, row.lat
-                                ]
-                            }
-                            delete row.statename;
-                            delete row.lat;
-                            delete row.long;
-                            delete row.initiator;
-                            delete row.side;
-                            row.location = [];
+  
 
-                            if(wararray.length == 0){
-                                row.participants = [];
-                                row.location = participant.location;
-                                wararray.push(row);
-                            }else{
-                                wararray =  addWar(wararray,row);
-                            }
-                            wararray = addParticipant(wararray,participant);
-                        }
+  </div> <!-- end page -->
+   
+<script type="text/javascript">
+  var specVis1 = "https://raw.githubusercontent.com/Eason0906/assignment2/main/js/bubble.vg.json";
+  var specVis2= "https://raw.githubusercontent.com/Eason0906/assignment2/main/js/coropleth.vg.json";
+  var specVis3="https://raw.githubusercontent.com/Eason0906/assignment2/main/js/t.vg.json"
 
-                        completedata = wararray;
-                    }
-                    function getGraphData() {
-                        var graphdata;
-                        var nodes = [];
-                        var links = [];
+  vegaEmbed('#vis1', specVis1, {"actions": false}).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+  
+   vegaEmbed('#vis2', specVis2, {"actions": false}).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
 
-                        for(var i = 0; i < completedata.length; i++){
-                            var war = completedata[i];
-                            var warnode = {
-                                id : war.name,
-                                type: "war",
-                                startyear: war.startyear,
-                                endyear : war.endyear,
-                                death: war.death
-                            }
-                            nodes.push(warnode);
-                            var warid = nodes.length - 1;
-
-                            var duration = war.endyear - war.startyear;
-                            for(var j = 0; j < war.participants.length; j++){
-                                var state =  war.participants[j];
-                                var statenode = {
-                                    id : state.name,
-                                    type: "state",
-                                    death: state.death
-                                }
-                                var id = getGraphDataId(nodes,state.name);
-                                if(id === -1){
-                                    nodes.push(statenode);
-                                    id = nodes.length - 1;
-                                }
-                                nodes = updateTotalDeathNode(nodes,state);
-                                links.push({
-                                    source: id, target: warid, value: duration
-                                })
-                            }
-                        }
-                        graphdata = {
-                            nodes : nodes,
-                            links : links
-                        };
-                        return graphdata;
-                    }
-                    function getLocations(id) {
-                        var locations = [];
-                        for(var i =0; i < warlocationdata.length; i++){
-                            var warloc = warlocationdata[i];
-                            if(warloc.id === id){
-                                locations.push(warloc);
-                            }
-                        }
-                        return locations;
-                    }
-                    function addLocation(base,item) {
-                        for(var i=0; i < item.length; i++){
-                            var loc = item[i];
-                            var found = false;
-                            for(var j = 0; j < base.length; j++){
-                                if(base[j].code == loc.code){
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if(!found) base.push(loc);
-                        }
-                        return base;
-                    }
-                    function addParticipant(wararray,participant) {
-                        for(var i = 0; i < wararray.length; i++) {
-                            if(wararray[i].warid == participant.warid){
-                                wararray[i].death = wararray[i].death + participant.death;
-                                wararray[i].location = addLocation(wararray[i].location, participant.location);
-                                wararray[i].participants.push(participant);
-                            }
-                        }
-                        return wararray;
-                    }
-                    function updateTotalDeathNode(nodes, state) {
-                        var id = getGraphDataId(nodes, state.name);
-                        nodes[id].death += state.death;
-                        return nodes;
-                    }
-                    function addWar(wararray,row) {
-                        var found = false;
-                        for(var i = 0; i < wararray.length; i++) {
-                            if(wararray[i].warid == row.warid){
-                                found = true;
-                                break;
-                            }
-                        }
-                        if(!found){
-                            row.participants = [];
-                            row.death = 0;
-                            wararray.push(row);
-                        }
-                        return wararray;
-                    }
-                    //end
-                })
-            })
-        </script>         
-    </body>
+  vegaEmbed('#vis3', specVis3, {"actions": false}).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+</script>
+</body>
 </html>
